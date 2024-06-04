@@ -1,0 +1,121 @@
+.blog-content {
+    background-color: #ffffff;
+    padding: 20px 15px;
+}
+
+.blog-content img {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.blog-content .sub-content {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.blog-content .sub-content span {
+    padding: 0 5px;
+}
+
+.blog-content .sub-content span:nth-child(4),
+.blog-content .sub-content span:nth-child(3) {
+    width: 15%;
+    height: 40px;
+    background-color: #1877F2;
+    color: #ffffff;
+    padding: 5px 5px;
+}
+.blog-content .sub-content span:nth-child(3) button{
+    border: 0;
+    background-color: #1877F2;
+}
+.blog-content .sub-content span:nth-child(4) a{
+    text-decoration: none;
+    color: #fff;
+}
+.blog-content h5 {
+    color: #3399FF;
+}
+
+.blog-content ul {
+    margin-left: 30px;
+}
+
+.blog-content .row p {
+    display: flex;
+    justify-content: center;
+}
+
+.tag-blog {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tag-blog .tag-item {
+    padding: 10px 10px;
+}
+
+.btn-control {
+    background-color: #ffffff;
+    padding: 20px 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.sub-content span button{
+    border: 0px;
+    background: #0a53be;
+}
+.btn-control button {
+    border: none;
+    width: 80px;
+    height: 40px;
+    background-color: transparent;
+}
+
+.section-news {
+    margin-bottom: 30px;
+}
+
+.section-news .news-content {
+    background-color: #ffffff;
+    height: 340px;
+}
+
+.section-news .news-content h4 {
+    padding: 10px 15px;
+}
+
+.reviews {
+    background-color: #ffffff;
+    padding: 20px 15px;
+}
+
+.reviews h3 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+form textarea {
+    margin-top: 10px;
+    width: 100%;
+    border: 1px solid #CCCCCC;
+}
+
+input[type=email] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    margin-top: 10px;
+    color: #ffffff;
+    border: none;
+    width: 80px;
+    height: 60px;
+    background-color: #114A82;
+}
