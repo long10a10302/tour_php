@@ -436,6 +436,66 @@ img {
 .filterDiv {
     display: none;
 }
+.day-tour,
+.title-tour {
+    height: 50px;
+    width: 100%;
+}
+
+.section-search .row {
+    display: flex;
+    width: 80%;
+}
+
+.section-search .form-group {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.section-search .col-lg-10 {
+    display: flex;
+    flex: 5;
+    gap: 10px;
+}
+
+.section-search .col-lg-2 {
+    flex: 1;
+}
+
+.section-search select,
+.section-search input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.section-search input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #5bc0de;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.section-search input[type="submit"]:hover {
+    background-color: #31b0d5;
+}
+
+.section-search select {
+    border-radius: 4px 0 0 4px;
+    border-right: none;
+}
+
+.section-search input[type="text"] {
+    border-radius: 0 4px 4px 0;
+    border-left: none;
+}
 
 .show {
     display: block;

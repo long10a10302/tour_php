@@ -44,6 +44,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     Status <input type="text" name="status" id="">
     <input type="submit" value="Create">
 </form>
-
+<script>
+    const quill = new Quill('#editor', {
+        modules: {
+            toolbar: [
+                [{ header: [1, 2, false] }],
+                ['bold', 'italic', 'underline'],
+                ['image', 'code-block'],
+            ],
+        },
+        placeholder: 'Compose an epic...',
+        theme: 'snow', // or 'bubble'
+    });
+</script>
 </body>
 </html>

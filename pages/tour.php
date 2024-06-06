@@ -1,6 +1,12 @@
 <?php
 include '../lib/function.php';
-$tours = getAllTour();
+$item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 4;
+$current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
+$offset = ($current_page-1)*$item_per_page;
+$tours = getAllTourLimit($item_per_page,$offset);
+$totalRecords = mysqli_query($conn,'SELECT * FROM tbl_tour');
+$totalRecords = $totalRecords->num_rows;
+$totalPages= ceil($totalRecords/$item_per_page);
 $tour_latest = getTourLatest();
 ?>
 <!DOCTYPE html>
@@ -9,7 +15,7 @@ $tour_latest = getTourLatest();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Travel Tour</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&family=Roboto:ital,wght@0,500;600,700;1,400&display=swap" rel="stylesheet">
@@ -51,7 +57,7 @@ $tour_latest = getTourLatest();
                             <div class="container">
                                 <div class="row ">
                                     <?php foreach ($tours as $key => $row){?>
-                                    <div class=" col-lg-12 col-md list-group">
+                                    <div class=" col-lg-6 col-md list-group">
                                         <div class="">
                                             <div class="list-tour">
                                                 <div class="slider-img">
@@ -83,33 +89,7 @@ $tour_latest = getTourLatest();
                                 </div>
                             </div>
                         </div>
-                        <div class="pagination-blog">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-6">
-                                    <div class="previous-link">
-                                        <button><a href="#">Previous</a></button>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="link-item">
-                                        <button>
-                                            <a href="">1</a>
-                                        </button>
-                                        <button>
-                                            <a href="">2</a>
-                                        </button>
-                                        <button>
-                                            <a href="">3</a>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-6">
-                                    <div class="next-link">
-                                        <button><a href="">Next</a></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                      <?php include '../controller/pagidate.php';?>
                     </div>
                     <div class="col-lg-4 col-md-4">
                         <div class="search-blog ">
@@ -166,8 +146,8 @@ $tour_latest = getTourLatest();
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-<script src="./js/bootstrap.min.js"></script>
-<script src="./js/tour.js"></script>
+<script src="../asset/js/tour.js"></script>
+<script src="../asset/js/main.js"></script>
 
 </body>
 

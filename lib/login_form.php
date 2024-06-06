@@ -82,7 +82,7 @@
         } else {
             rememberPass = 'fail';
         }
-        xhttp.open("GET", "./controller/login.php?username=" + userName + "&password=" + passWord + "&rememberPass=" + rememberPass, true);
+        xhttp.open("GET", "../controller/login.php?username=" + userName + "&password=" + passWord + "&rememberPass=" + rememberPass, true);
         xhttp.send();
     }
 </script>

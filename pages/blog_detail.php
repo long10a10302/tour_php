@@ -5,16 +5,15 @@ $blog_detail = getBlogDetail($_GET['id']);
 $blogs_latest = getBlogLatest();
 $blog_hot = getHotBlog();
 $id = $_GET['id'];
-session_start();
 // Kiểm tra và cập nhật lượt xem
-if(isset($_SESSION['blog_detail_count'])) {
-    // Cập nhật lượt xem trong cơ sở dữ liệu
-    $sql = "UPDATE tbl_blog SET count = count + 1  WHERE id = $id";
-    mysqli_query($conn,$sql);
-    if( mysqli_query($conn,$sql)){
-        echo 'Cập nhật thành công';
-    }
+// Cập nhật lượt xem trong cơ sở dữ liệu
+
+$sql = "UPDATE tbl_blog SET count = count + 1  WHERE id = $id";
+
+if (mysqli_query($conn, $sql)) {
+    echo 'Cập nhật thành công';
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,23 +50,33 @@ if(isset($_SESSION['blog_detail_count'])) {
                         <?php
                         foreach ($blog_detail as $key => $row) {
 
-                        ?>
-                        <div class="blog-content">
-                            <img src="<?=$row['name_file'];?>" alt="">
-                            <h4><?= $row['title'];?></h4>
-                            <div class="sub-content">
-                                <span><i class="fa fa-calendar" aria-hidden="true"></i><?= $row['time_create']; ?> </span>
-                                <span><i class="fa fa-eye" aria-hidden="true"></i><?= $row['count']; ?></span>
-                                <span><button id="like" /><i class="fa fa-thumbs-up" aria-hidden="true"></i> Thích <span id='count'><?= $row['count_like'];?></span></button></span>
-                                <span><a href="">Chia sẻ</a></span>
-                            </div>
-                            <p><?= $row['content'];?></p>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <p>Ảnh sưu tầm</p>
+                            ?>
+                            <div class="blog-content">
+                                <img src="<?= $row['name_file']; ?>" alt="">
+                                <h4><?= $row['title']; ?></h4>
+                                <div class="sub-content">
+                                    <span><i class="fa fa-calendar" aria-hidden="true"></i><?= $row['time_create']; ?> </span>
+                                    <span><i class="fa fa-eye" aria-hidden="true"></i><?= $row['count']; ?></span>
+                                    <span><button id="like"/><i class="fa fa-thumbs-up"
+                                                                aria-hidden="true"></i> Thích <span
+                                                id='count'><?= $row['count_like']; ?></span></button></span>
+                                    <span><a href="">Chia sẻ</a></span>
+                                </div>
+                                <?php 
+    // Tách chuỗi theo các ký tự ngắt dòng (cả \n và \r\n)
+    $itinerary = preg_split('/\r\n|\r|\n/', $row['content']);
+    foreach($itinerary as $content){
+        if(!empty(trim($content))){
+            echo '<p>' . htmlspecialchars($content) . '</p>';
+        }
+    }
+    ?>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <p>Ảnh sưu tầm</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <?php } ?>
                         <div class="btn-control">
                             <div>
@@ -79,13 +88,15 @@ if(isset($_SESSION['blog_detail_count'])) {
                         </div>
                         <div class="section-news">
                             <div class="row">
-                                <?php foreach ($blog_hot as $key =>$row){ ?>
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="news-content">
-                                        <img src="<?= $row['name_file']; ?>" alt="">
-                                        <h4><a href="blog_detail.php?id=<?= $row['id'];?>"><?= $row['title']; ?></a></h4>
+                                <?php foreach ($blog_hot as $key => $row) { ?>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="news-content">
+                                            <img src="<?= $row['name_file']; ?>" alt="">
+                                            <h4>
+                                                <a href="blog_detail.php?id=<?= $row['id']; ?>"><?= $row['title']; ?></a>
+                                            </h4>
+                                        </div>
                                     </div>
-                                </div>
                                 <?php } ?>
                             </div>
                         </div>
@@ -143,11 +154,11 @@ if(isset($_SESSION['blog_detail_count'])) {
                                         <div class="post-item">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <img src="<?=$blog['name_file']?>" alt="">
+                                                    <img src="<?= $blog['name_file'] ?>" alt="">
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <h6><?=$blog['title']?></h6>
-                                                    <p><?=$blog['time_create']?></p>
+                                                    <h6><?= $blog['title'] ?></h6>
+                                                    <p><?= $blog['time_create'] ?></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -166,22 +177,21 @@ if(isset($_SESSION['blog_detail_count'])) {
 </section>
 <script>
 
-       var button = document.getElementById('like');
-       var count = document.getElementById('count');
-       var idBlog = document.getElementById('id_blog').value;
-       let clickCount = count.innerHTML;
-       // Gắn sự kiện click vào nút
-       button.addEventListener('click', function() {
-           // Tăng biến đếm lên 1
-           clickCount++;
+    var button = document.getElementById('like');
+    var count = document.getElementById('count');
+    var idBlog = document.getElementById('id_blog').value;
+    let clickCount = count.innerHTML;
+    // Gắn sự kiện click vào nút
+    button.addEventListener('click', function () {
+        // Tăng biến đếm lên 1
+        clickCount++;
 
 
-
-           // Hiển thị số lần bấm
-           const xhttp = new XMLHttpRequest();
-           xhttp.open("GET", "../controller/countLike.php?countClick=" + clickCount + '&&id=' + idBlog);
-           xhttp.send();
-       });
+        // Hiển thị số lần bấm
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "../controller/countLike.php?countClick=" + clickCount + '&&id=' + idBlog);
+        xhttp.send();
+    });
 </script>
 </body>
 </html>
