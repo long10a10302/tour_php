@@ -9,36 +9,42 @@
 </head>
 <body>
 <?php
-include "../lib/db_connect.php";
+include "../lib/function.php";
 
 // Xác định id và kiểm tra giá trị
 $id = $_GET['id'] ?? '';
 $id = mysqli_real_escape_string($conn, $id);
 
 // Kiểm tra xem id có tồn tại trong bảng không
-$value = "SELECT * FROM tbl_tour WHERE id = '$id'";
-$result = mysqli_query($conn, $value);
-echo $result; die();
-$row = mysqli_fetch_assoc($result);
-echo $row; die();
-if ($row) {
-    // Lấy giá trị từ cơ sở dữ liệu
+$tours = getTour($id);
+foreach($tours as $key => $row){
     $idValue = $row['id'];
     $nameValue = $row['name'];
     $descriptionValue = $row['description'];
     $priceValue = $row['price'];
     $dayValue = $row['day'];
+    $noteValue = $row['note'];
+    $planValue = $row['plan_tour'];
+    $imgValue = $row['img_id'];
+    $statusValue = $row['status'];
+}
+
+if ($row) {
+    // Lấy giá trị từ cơ sở dữ liệu
+
 
     // Kiểm tra xem có yêu cầu cập nhật không
-    if (isset($_GET['name'], $_GET['description'], $_GET['price'], $_GET['day'])) {
-        // Lấy giá trị cần cập nhật từ tham số GET
-        $nameSet = $_GET['name'];
-        $descriptionSet = $_GET['description'];
-        $priceSet = $_GET['price'];
-        $daySet = $_GET['day'];
+    if (isset($_POST['name'], $_POST['description'], $_POST['price'], $_POST['day'])) {
+        // Lấy giá trị cần cập nhật từ tham số POST
+        $nameSet = $_POST['name'];
+        $descriptionSet = $_POST['description'];
+        $priceSet = $_POST['price'];
+        $daySet = $_POST['day'];
+        $noteSet = $row['note'];
+        $planSet = $row['plan_tour'];
 
         // Cập nhật dữ liệu
-        $sql = "UPDATE tbl_tour SET name = '$nameSet', description = '$descriptionSet', day = '$daySet', price = '$priceSet' WHERE id = '$id'";
+        $sql = "UPDATE tbl_tour SET name = '$nameSet', description = '$descriptionSet', day = '$daySet', price = '$priceSet',note = '$noteSet',plan_tour = '$planSet' WHERE id = '$id'";
         if (mysqli_query($conn, $sql)) {
             echo "Dữ liệu đã được cập nhật thành công.";
         } else {
@@ -48,12 +54,13 @@ if ($row) {
 }
 ?>
 
-<form action="../pages/admin/admin_tour.php" method="GET">
+<form action="../pages/admin/admin_tour.php" method="POST">
     id <input type="text" name="id" id="" value="<?= $idValue ?>">
     name <input type="text" name="name" id="" value="<?= $nameValue ?>">
-    description <input type="text" name="description" id="" value="<?= $descriptionValue ?>">
+    description <textarea name="description" id="" cols="50" rows="50"><?=$descriptionValue?></textarea>
     price <input type="text" name="price" id="" value="<?= $priceValue ?>">
     day <input type="text" name="day" id="" value="<?= $dayValue ?>">
+    Plan: <textarea name="plan" id="" cols="50" rows="50" ><?=$planValue?></textarea><br>
     <input type="submit" value="Update">
 </form>
 </body>

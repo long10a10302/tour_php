@@ -66,7 +66,7 @@ $customers = getAllCustomer();
                                 <td><?= $row['name'] ?></td>
                                 <td><?= $row['email'] ?></td>
                                 <td><?= $row['phonenumber'] ?></td>
-                                <td><?= $row['price'] ?></td>
+                                <td><?= $row['sum_price'] ?></td>
                                 <td><?= $row['day_go'] ?></td>
                                 <td><?= $row['booking_date'];?></td>
                                 <td>

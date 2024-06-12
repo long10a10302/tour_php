@@ -17,7 +17,7 @@ function getDaTa($sql)
 
 function getAllHotTour()
 {
-    $sql = "SELECT tbl_tour.id AS tour_id, tbl_tour.id,tbl_tour.name, tbl_tour.note, tbl_tour.price, tbl_tour.day, tbl_tour.img_id, tbl_tour.status, tbl_media.name_file FROM tbl_tour LEFT JOIN tbl_media ON tbl_tour.img_id = tbl_media.id ORDER BY tbl_tour.time_create DESC LIMIT 6";
+    $sql = "SELECT tbl_tour.id AS tour_id, tbl_tour.id,tbl_tour.name, tbl_tour.note, tbl_tour.price, tbl_tour.day, tbl_tour.img_id, tbl_tour.status, tbl_media.name_file FROM tbl_tour LEFT JOIN tbl_media ON tbl_tour.img_id = tbl_media.id LIMIT 6";
     $tours = getDaTa($sql);
     return $tours;
 }
@@ -38,7 +38,7 @@ function getTourLatest()
 
 function getTourDetail($id)
 {
-    $sql = "SELECT  tbl_tour.id AS tour_id,tbl_tour.name,tbl_tour.note,tbl_tour.price,tbl_tour.time_create,tbl_tour.plan_tour,tbl_tour.day,tbl_tour.img_id,tbl_tour.status,tbl_media.name_file FROM tbl_tour LEFT JOIN tbl_media ON tbl_tour.img_id = tbl_media.id WHERE $id = tbl_tour.id;";
+    $sql = "SELECT  tbl_tour.id AS tour_id,tbl_tour.id,tbl_tour.name,tbl_tour.description,tbl_tour.note,tbl_tour.price,tbl_tour.time_create,tbl_tour.plan_tour,tbl_tour.day,tbl_tour.img_id,tbl_tour.status,tbl_media.name_file FROM tbl_tour LEFT JOIN tbl_media ON tbl_tour.img_id = tbl_media.id WHERE $id = tbl_tour.id;";
     $tour_detail = getDaTa($sql);
     return $tour_detail;
 }
@@ -57,14 +57,35 @@ function  searchTour($place){
     $tours = getDaTa($sql);
     return $tours;
 }
+function getTour($id = null) {
+    global $conn;
+    $sql = "SELECT * FROM tbl_tour";
 
+    if ($id !== null) {
+        $sql .= " WHERE id = $id";
+    }
+
+    return getDaTa($sql);
+}
+{
+
+}
 function getAllCustomer()
 {
     $sql = "SELECT * FROM tbl_rls_tour_customer";
     $customers = getData($sql);
     return $customers;
 }
+function getAllCustomerID($id = null){
+    global $conn;
+    $sql = "SELECT * FROM tbl_rls_tour_customer";
 
+    if ($id !== null) {
+        $sql .= " WHERE id = $id";
+    }
+
+    return getDaTa($sql);
+}
 function getAllBlog()
 {
     $sql = "SELECT tbl_blog.id AS blog_id,tbl_blog.id, tbl_blog.title, tbl_blog.content, tbl_blog.status, tbl_blog.time_create, tbl_blog.count, tbl_blog.img_id, tbl_media.name_file FROM tbl_blog LEFT JOIN tbl_media ON tbl_blog.img_id = tbl_media.id ";

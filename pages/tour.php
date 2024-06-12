@@ -65,10 +65,14 @@ $tour_latest = getTourLatest();
                                                         <img src="<?= $row['name_file'];?>" alt="">
                                                     </div>
                                                 </div>
-                                                <a href="../pages/tour_detail.php?id=<?=$row['id'];?>">
-                                                    <h5><?= $row['name']; ?></h5>
-                                                </a>
-                                                <span><?= $row['day']; ?> </span>
+                                               <div class = 'title-tour'>
+                                                   <a href="../pages/tour_detail.php?id=<?=$row['id'];?>">
+                                                       <h5><?= $row['name']; ?></h5>
+                                                   </a>
+                                               </div>
+                                               <div class="day-tour">
+                                                   <span><?= $row['day']; ?> </span>
+                                               </div>
                                                 <div class="row">
                                                     <div class="col-lg-8 col-md-8">
                                                         <div class="prices">
@@ -121,12 +125,12 @@ $tour_latest = getTourLatest();
                         <div class="photo-blog">
                             <h4>Ảnh</h4>
                             <div class="row">
-                                <div class="col-lg-4 col-md-6"><img src="../asset/img/1.jpg" alt=""></div>
-                                <div class="col-lg-4 col-md-6"><img src="../asset/img/2.jpg" alt=""></div>
-                                <div class="col-lg-4 col-md-6"><img src="../asset/img/3.jpg" alt=""></div>
-                                <div class="col-lg-4 col-md-6"><img src="../asset/img/4.jpg" alt=""></div>
-                                <div class="col-lg-4 col-md-6"><img src="../asset/img/5.jpg" alt=""></div>
-                                <div class="col-lg-4 col-md-6"><img src="../asset/img/6.jpg" alt=""></div>
+                                <div class="col-lg-4 col-md-6"><img src="../asset/img/backinh.jpg" alt=""></div>
+                                <div class="col-lg-4 col-md-6"><img src="../asset/img/caobang.jpg" alt=""></div>
+                                <div class="col-lg-4 col-md-6"><img src="../asset/img/coto.jpg" alt=""></div>
+                                <div class="col-lg-4 col-md-6"><img src="../asset/img/dienbien.jpg" alt=""></div>
+                                <div class="col-lg-4 col-md-6"><img src="../asset/img/ha giang.jpg" alt=""></div>
+                                <div class="col-lg-4 col-md-6"><img src="../asset/img/halong.jpg" alt=""></div>
                             </div>
                         </div>
                     </div>

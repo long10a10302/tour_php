@@ -433,12 +433,10 @@ img {
     padding-bottom: ̀40px !important;
 }
 
-.filterDiv {
-    display: none;
-}
+
 .day-tour,
 .title-tour {
-    height: 50px;
+    height: 100px;
     width: 100%;
 }
 
@@ -498,5 +496,6 @@ img {
 }
 
 .show {
-    display: block;
+    visibility: visible;
+    opacity: 1;
 }

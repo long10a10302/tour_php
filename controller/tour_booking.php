@@ -1,26 +1,25 @@
 <?php
 
-include '../lib/db_connect.php';
-$sql = "SELECT * FROM tbl_tour";
-$result = mysqli_query($conn,$sql);
-$row = mysqli_fetch_assoc($result);
-$idTour = $row['id'];
-$price = $row['price'];
+include '../lib/function.php';
+$id = $_GET['id'];
 
+$tours = getTour($id);
+
+foreach ($tours as $key => $row){
+    $idTour = $row['id'];
+    $price = floatval($row['price']);
+}
 $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
 $phone = isset($_REQUEST['phone']) ? $_REQUEST['phone'] : '';
 $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : '';
 $day = isset($_REQUEST['day']) ? $_REQUEST['day'] : '';
-
+$numberPeople = isset($_REQUEST['number_people']) ? floatval($_REQUEST['number_people'] ): 0;
+$numberChildren = isset($_REQUEST['number_children']) ? floatval($_REQUEST['number_children']) :0;
+$$sumPrice = isset($_REQUEST['sum_price']) ? floatval($_REQUEST['sum_price']) :0;
 
 if ($name != '' && $phone != '' && $email != '' && $day != '') {
-    $sql = "INSERT INTO tbl_rls_tour_customer (id_tour, name, phonenumber, email, price,day_go) VALUES ('$idTour', '$name', '$phone', '$email', '$price','$day')";
-
-    if (mysqli_query($conn, $sql)) {
-        echo 'Booking successfully';
-    } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-    }
+    $sql = "INSERT INTO tbl_rls_tour_customer (id_tour, name, phonenumber, email,day_go, number_people, number_children,sum_price)VALUES ('$idTour', '$name','$phone', '$email','$day','$numberPeople','$numberChildren','$sumPrice');";
+    mysqli_query($conn, $sql);
 }
 
 mysqli_close($conn);
@@ -51,8 +50,9 @@ mysqli_close($conn);
         <?php include '../lib/navbar_home.php'; ?>
         <div class="container">
             <section class="contact-info">
-                <h2>Thông tin liên hệ</h2>
+                <h2>Đơn đặt hàng  Tour <?=$row['name'];?></h2>
                 <form>
+                    <input type="hidden" name="id" value="<?=$_GET['id'];?>">
                     <div class="form-group">
                         <label for="name">Họ và tên</label>
                         <input type="text" id="name" name="name" placeholder="Nhập họ và tên của bạn" require/>
@@ -74,7 +74,24 @@ mysqli_close($conn);
                         <label for="day">Ngày đi</label>
                         <input type="date" id="email" name="day" placeholder="Nhập ngày đi " require/>
                     </div>
-                    <button type="submit">Gửi</button>
+                    <input type="hidden" name="price_tour" value = <?= $row['price'] ?> id = 'price_tour'>
+                    <div class="form-group">
+                        <label for="">Số lượng người lớn(>10 tuổi)</label>
+                        <input type="number" name="number_people" id="people" onchange="calculateTotalPrice()">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Số lượng trẻ em (từ 5 đến 9 tuổi) </label>
+                        <input type="number" name="number_people" id="age_nine" onchange="calculateTotalPrice()">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Số lượng trẻ em (<5 tuổi)</label>
+                        <input type="number" name="number_children" id="age_five" onchange="calculateTotalPrice()">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Tổng tiền</label>
+                        <input type="number" name="sum_price" id="sum_price" onchange="calculateTotalPrice()">
+                    </div>
+                    <button type="submit">Đăng ký</button>
                 </form>
             </section>
         </div>
@@ -83,5 +100,16 @@ mysqli_close($conn);
         <?php include '../lib/footer_home.php'; ?>
     </footer>
 </section>
+<script>
+    function calculateTotalPrice() {
+        const numAdult = parseInt(document.getElementById('people').value) || 0;
+        const numChildNine = parseInt(document.getElementById('age_nine').value) || 0;
+        const numChildFive = parseInt(document.getElementById('age_five').value) || 0;
+        const priceTour = parseInt(document.getElementById('price_tour').value) || 0;
+
+        const totalPrice = numAdult * priceTour + numChildNine*50/100;
+        document.getElementById('sum_price').value = totalPrice;
+    }
+</script>
 </body>
 </html>

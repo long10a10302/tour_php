@@ -27,101 +27,11 @@ $tour_latest = getTourLatest();
 <body>
 <section>
     <header>
-        <div class="top-header">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-4">
-                        <div class="top-header-left">
-                            <p>Thứ 2- Thứ 7 08.00 AM - 18:00 PM</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-8 col-8">
-                        <div class="top-header-right">
-                            <ul>
-                                <li class="header-icon">
-                                    <i class="fa fa-facebook"></i>
-                                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                                    <i class="fa fa-google"></i>
-                                </li>
-                                <li>
-                                    VND(đ)
-                                    <i class="fa fa-chevron-down"></i>
-                                </li>
-                                <li>
-                                    Tiếng Việt
-                                    <i class="fa fa-chevron-down"></i>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php include '../lib/header_home.php'; ?>
     </header>
     <main>
         <section class="section-hero">
-            <div class="banner">
-                <div class="">
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                        <div class="container">
-                            <a class="navbar-brand" href="index.html"> <img src="https://storage.googleapis.com/tripi-assets/mytour/icons/icon_logo_mytour.svg" alt="">
-                            </a>
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav mr-auto">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="index.html">Trang chủ <span class="sr-only">(current)</span></a>
-                                    </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-                                            Tour
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="tour.html">Các tour</a>
-                                            <a class="dropdown-item" href="tour_detail.html">Chi tiết tour</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Chuyến bay <span class="sr-only">(current)</span></a>
-                                    </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-                                            Blog
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="blog.html">Bài viết </a>
-                                            <a class="dropdown-item" href="blog_detail.html">Chi tiết bài viết</a>
-                                            <div class="dropdown-divider"></div>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Liên hệ<span class="sr-only">(current)</span></a>
-                                    </li>
-                                </ul>
-                                <ul class="list-authentiation">
-                                    <li>
-                                            <span id="login">
-                                        <i class="fa fa-user-o" aria-hidden="true"></i> Đăng Nhập
-                                        </span>
-
-
-                                    </li>
-                                    <li>
-                                            <span id="signup">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i> Đăng Ký
-                                        </span>
-                                    </li>
-                                    <li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </div>
+            <?php include '../lib/navbar_home.php'; ?>
         </section>
         <section class="section-wrapper">
             <div class="container">
@@ -147,27 +57,15 @@ $tour_latest = getTourLatest();
                                     <h2>Thời gian</h2>
                                     <p><?= $row['day']; ?></p>
                                     <h2>Điểm nổi bật</h2>
-                                    <ul>
-                                        <?php
-                                        $highlights = explode("\n", $row['note']);
-                                        foreach ($highlights as $highlight) {
-                                            echo "<li>" . htmlspecialchars($highlight) . "</li>";
-                                        }
-                                        ?>
-                                    </ul>
+                                    <p><?= $row['description'];?></p>
                                     <h2>Lịch trình</h2>
-                                    <?php
-                                    $itinerary = explode("\nNGÀY", $row['plan_tour']);
-                                    foreach ($itinerary as $day) {
-                                        if (!empty(trim($day))) {
-                                            echo "<p><strong>NGÀY" . htmlspecialchars($day) . "</strong></p>";
-                                        }
-                                    }
-                                    ?>
-                                    <h3>Giá tour</h3>
+                                    <p><?= $row['plan_tour'];?></p>
+                                    <h2>Giá tour</h2>
                                     <p><?= $row['price'];?></p>
+                                    <h2>Bao gồm</h2>
+                                    <p><?= $row['note']?></p>
                                     <div class="booking-tour">
-                                        <button><a href="#">Đặt ngay</a></button>
+                                        <button><a href="../controller/tour_booking.php?id=<?=$row['id']?>">Đặt ngay</a></button>
                                     </div>
                                 </div>
                             </div>
