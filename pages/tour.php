@@ -29,7 +29,6 @@ $tour_latest = getTourLatest();
 <body>
 <section>
     <header>
-       <?php include '../lib/header_home.php'; ?>
         <?php include '../lib/navbar_home.php';?>
     </header>
     <main>
@@ -77,7 +76,7 @@ $tour_latest = getTourLatest();
                                                     <div class="col-lg-8 col-md-8">
                                                         <div class="prices">
                                                             <span>Từ</span>
-                                                            <span><?= $row['price']; ?><span>đ</span></span>
+                                                            <span><?= number_format($row['price']);  ?><span>đ</span></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4 col-md-4">
@@ -97,10 +96,18 @@ $tour_latest = getTourLatest();
                     </div>
                     <div class="col-lg-4 col-md-4">
                         <div class="search-blog ">
-                            <form action="">
-                                <input type="text" placeholder="Search">
-                                <button><i class="fa fa-search"></i></button>
-                            </form>
+                        <form action="../pages/search_tour.php">
+                        <div class="row">
+                            <div class="col-lg-10 form-group">
+                                <i></i>
+                                <input type="text" name="search" id="">
+                                <input type="submit" value="Tìm kiếm">
+                            </div>
+                            <div class="col-lg-2 form-group">
+
+                            </div>
+                        </div>
+                    </form>
                         </div>
                         <div class="recent-post">
                             <h4>Các tour gần đây</h4>

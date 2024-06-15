@@ -10,9 +10,8 @@ $id = $_GET['id'];
 
 $sql = "UPDATE tbl_blog SET count = count + 1  WHERE id = $id";
 
-if (mysqli_query($conn, $sql)) {
-    echo 'Cập nhật thành công';
-}
+mysqli_query($conn, $sql);
+
 
 ?>
 <!DOCTYPE html>
@@ -36,7 +35,6 @@ if (mysqli_query($conn, $sql)) {
 <body>
 <section>
     <header>
-        <?php include '../lib/header_home.php'; ?>
         <?php include '../lib/navbar_home.php'; ?>
     </header>
     <main>
@@ -62,15 +60,7 @@ if (mysqli_query($conn, $sql)) {
                                                 id='count'><?= $row['count_like']; ?></span></button></span>
                                     <span><a href="">Chia sẻ</a></span>
                                 </div>
-                                <?php 
-    // Tách chuỗi theo các ký tự ngắt dòng (cả \n và \r\n)
-    $itinerary = preg_split('/\r\n|\r|\n/', $row['content']);
-    foreach($itinerary as $content){
-        if(!empty(trim($content))){
-            echo '<p>' . htmlspecialchars($content) . '</p>';
-        }
-    }
-    ?>
+                                <p><?= $row['content']?></p>
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <p>Ảnh sưu tầm</p>

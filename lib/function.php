@@ -15,6 +15,11 @@ function getDaTa($sql)
     return $data;
 }
 
+function getUser(){
+    $sql = 'SELECT * FROM tbl_admin';
+    $users = getDaTa($sql);
+    return $users;
+}
 function getAllHotTour()
 {
     $sql = "SELECT tbl_tour.id AS tour_id, tbl_tour.id,tbl_tour.name, tbl_tour.note, tbl_tour.price, tbl_tour.day, tbl_tour.img_id, tbl_tour.status, tbl_media.name_file FROM tbl_tour LEFT JOIN tbl_media ON tbl_tour.img_id = tbl_media.id LIMIT 6";
@@ -52,8 +57,9 @@ function getAllTourLimit($per_page, $offset)
     $tours = getDaTa($sql);
     return $tours;
 }
+
 function  searchTour($place){
-    $sql = "SELECT tbl_tour.id AS tour_id, tbl_tour.id,tbl_tour.name, tbl_tour.note, tbl_tour.price, tbl_tour.day, tbl_tour.img_id, tbl_tour.status, tbl_media.name_file FROM tbl_tour LEFT JOIN tbl_media ON tbl_tour.img_id = tbl_media.id WHERE tbl_tour.name LIKE '%$place%'";
+    $sql = "SELECT tbl_tour.id AS tour_id, tbl_tour.id,tbl_tour.name, tbl_tour.note, tbl_tour.price, tbl_tour.day, tbl_tour.img_id, tbl_tour.status, tbl_media.name_file FROM tbl_tour LEFT JOIN tbl_media ON tbl_tour.img_id = tbl_media.id WHERE tbl_tour.place LIKE '%$place%'";
     $tours = getDaTa($sql);
     return $tours;
 }
@@ -67,9 +73,7 @@ function getTour($id = null) {
 
     return getDaTa($sql);
 }
-{
 
-}
 function getAllCustomer()
 {
     $sql = "SELECT * FROM tbl_rls_tour_customer";
@@ -114,6 +118,12 @@ function getBlogDetail($id)
     $blogs = getDaTa($sql);
     return $blogs;
 }
+function getAllBlogLimit($per_page, $offset)
+{
+    $sql = "SELECT tbl_blog.id AS blog_id,tbl_blog.id, tbl_blog.title, tbl_blog.content, tbl_blog.status, tbl_blog.time_create, tbl_blog.count, tbl_blog.img_id, tbl_media.name_file FROM tbl_blog LEFT JOIN tbl_media ON tbl_blog.img_id = tbl_media.id LIMIT $per_page OFFSET $offset ";
+    $blogs = getDaTa($sql);
+    return $blogs;
+}
 
 function getALLAssement()
 {
@@ -122,4 +132,4 @@ function getALLAssement()
     return $assements;
 }
 
-?>fc
+?>

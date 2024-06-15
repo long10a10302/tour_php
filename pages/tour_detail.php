@@ -27,7 +27,6 @@ $tour_latest = getTourLatest();
 <body>
 <section>
     <header>
-        <?php include '../lib/header_home.php'; ?>
     </header>
     <main>
         <section class="section-hero">
@@ -61,7 +60,7 @@ $tour_latest = getTourLatest();
                                     <h2>Lịch trình</h2>
                                     <p><?= $row['plan_tour'];?></p>
                                     <h2>Giá tour</h2>
-                                    <p><?= $row['price'];?></p>
+                                    <p><?= number_format($row['price']);  ?></p>
                                     <h2>Bao gồm</h2>
                                     <p><?= $row['note']?></p>
                                     <div class="booking-tour">
@@ -75,27 +74,7 @@ $tour_latest = getTourLatest();
                     </div>
                     <div class="col-lg-4 col-md-4">
                         <div class="tour-sidebar">
-                            <div class="tour-search">
-                                <h3>Tìm tour</h3>
-                                <form action="#">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Điểm đến">
-                                    </div>
-                                    <div class="form-group">
-                                        <select class="form-control" id="tourDuration">
-                                            <option>Thời gian</option>
-                                            <option>1 ngày</option>
-                                            <option>2 ngày 1 đêm</option>
-                                            <option>3 ngày 2 đêm</option>
-                                            <option>4 ngày 3 đêm</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Ngày khởi hành">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                                </form>
-                            </div>
+                           
                             <div class="sidebar-ad">
                                 <a href="#"><img src="./img/ad.jpg" alt=""></a>
                             </div>
@@ -131,50 +110,19 @@ $tour_latest = getTourLatest();
             </div>
         </section>
     </main>
-</section>
-<footer>
-    <div class="container">
-        <div class="logo">
-            <img src="https://storage.googleapis.com/tripi-assets/mytour/icons/icon_logo_mytour.svg" alt="">
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="footer-content">
-                    <div>
-                        <h4>Liên hệ với chúng tôi</h4>
-                        <ul>
-                            <li>25 Láng Hạ Thanh Xuân Hà Nội</li>
-                            <li>0338095474</li>
-                            <li>long10a11999@gmail.com</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="footer-content">
-                    <div>
-
-                    </div>
-                    <div>
-                        <h4>Chính sách và quy định</h4>
-                        <ul>
-                            <li><a href="#">Điều khoản và điều kiện</a></li>
-                            <li><a href="#">Chính sách về hủy đặt phòng và hoàn trả tiền</a></li>
-                            <li><a href="#">Điều lệ bay quốc nội</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="footer-content">
-                    <h4>Khách hàng và đối tác</h4>
-                    <ul>
-                        <li><a href="#">Đăng nhập HMS</a></li>
-                        <li><a href="#">Tuyển dụng</a></li>
-                        <li><a href="#">Liên hệ</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+    <footer>
+  <?php include '../lib/footer_home.php'; ?>
 </footer>
+<div class="backToTop">
+        <a id="button"><i class="fa fa-long-arrow-up" aria-hidden="true"></i></a>
+    </div>
+</section>
+<?php include '../lib/login_form.php';?>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="../asset/js/tour.js"></script>
+<script src="../asset/js/main.js"></script>
+
+</body>
+
+</html>

@@ -49,13 +49,13 @@ if ($row) {
             echo "Dữ liệu đã được cập nhật thành công.";
         } else {
             echo "Lỗi khi cập nhật dữ liệu: " . mysqli_error($conn);
-        }
+        } 
     }
 }
 ?>
 
 <form action="../pages/admin/admin_tour.php" method="POST">
-    id <input type="text" name="id" id="" value="<?= $idValue ?>">
+   
     name <input type="text" name="name" id="" value="<?= $nameValue ?>">
     description <textarea name="description" id="" cols="50" rows="50"><?=$descriptionValue?></textarea>
     price <input type="text" name="price" id="" value="<?= $priceValue ?>">

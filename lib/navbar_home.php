@@ -25,7 +25,12 @@
                            data-toggle="dropdown" aria-expanded="false">
                             Blog
                         </a>
-
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link dropdown-toggle" href="../pages/assement.php" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-expanded="false">
+                            Đánh giá
+                        </a>
                     </li>
                 </ul>
                 <ul class="list-authentiation">

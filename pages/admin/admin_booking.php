@@ -66,7 +66,7 @@ $customers = getAllCustomer();
                                 <td><?= $row['name'] ?></td>
                                 <td><?= $row['email'] ?></td>
                                 <td><?= $row['phonenumber'] ?></td>
-                                <td><?= $row['sum_price'] ?></td>
+                                <td><?= number_format($row['sum_price']); ?></td>
                                 <td><?= $row['day_go'] ?></td>
                                 <td><?= $row['booking_date'];?></td>
                                 <td>
@@ -84,13 +84,15 @@ $customers = getAllCustomer();
                                     <select name="type" class='select_type' onchange="selectChange()">
                                         <option value="chưa_xác_nhận">Chưa xác nhận</option>
                                         <option value="đã_xác_nhận">Đã xác nhận</option>
+                                        <option value="chưa_liên_hệ_được">Chưa liên hệ được</option>
+                                        <option value="hủy_tour">Hủy Tour</option>
+
                                         <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                     </select>
                                 <?php } ?>
                             </tr>
                         <?php } ?>
                         </tbody>
-
                     </table>
                     <?php
 
@@ -123,8 +125,6 @@ $customers = getAllCustomer();
             xhttp.send();
         }
     }
-
-
 </script>
 
 </body>

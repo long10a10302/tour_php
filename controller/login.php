@@ -1,29 +1,59 @@
 <?php
-include '../lib/db_connect.php';
+include '../lib/function.php';
+$sql = "SELECT * FROM tbl_admin";
+$result = $conn->query($sql);
+// Bảo vệ đối với các tham số đầu vào
+$inputUsername = isset($_REQUEST['username']) ? htmlspecialchars($_REQUEST['username']) : '';
+$inputPassword = isset($_REQUEST['password']) ? htmlspecialchars($_REQUEST['password']) : '';
+session_start();
 
-$sql = "SELECT username, password FROM tbl_admin";
-$result = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($result);
+// Kiểm tra kết nối và số lượng kết quả trả về
+if ($result && $result->num_rows > 0) {
+    $loginError = 'username_fail'; // Giả định mặc định là sai username nếu không có kết quả
 
-$userName = $row['username'];
-$passWord = $row['password'];
-if (isset($_REQUEST['username']) && $_REQUEST['username'] === $userName) {
-    if (isset($_REQUEST['password']) && $_REQUEST['password'] === $passWord) {
-        $status = 'login_success';
-        setcookie('user_id', 'admin', time() + 300, "/");
-    } else {
-        $status = 'password_fail';
+    // Lặp qua các hàng kết quả
+    while($row = $result->fetch_assoc()) {
+        // Lấy thông tin tài khoản và mật khẩu từ cơ sở dữ liệu
+        $dbUsername = $row['username'];
+        $dbPassword = $row['password'];
+        $dbRole = $row['role'];
+        // Kiểm tra thông tin đăng nhập
+        if ($inputUsername === $dbUsername) {
+            if ($inputPassword === $dbPassword) {
+                // Đăng nhập thành công
+                setcookie('user_id', 'admin', time() + 300, "/");
+                $loginError = ''; // Xóa thông báo lỗi nếu có
+                if($dbRole === 'admin'){
+                    $status = 'login_success_admin';
+                }else{
+                    $status = 'login_success_user';
+                }
+                break; // Thoát vòng lặp sau khi tìm thấy kết quả đúng
+
+            } else {
+                // Sai mật khẩu
+                $loginError = 'password_fail';
+            }
+        }else{
+            $loginError = 'username_fail';
+        }
     }
+}
+
+// Đóng kết nối MySQL
+$conn->close();
+
+// Xử lý ghi nhớ mật khẩu nếu được chọn
+if (isset($_REQUEST['rememberPass']) && $_REQUEST['rememberPass'] === 'pass' && $status === 'login_success') {
+    // Nếu muốn ghi nhớ mật khẩu
+    setcookie('username', $inputUsername, time() + 3600, '/');
+    setcookie('password', $inputPassword, time() + 3600, '/');
+}
+
+// In ra thông báo đăng nhập thành công hoặc thông báo lỗi
+if (!empty($loginError)) {
+    echo $loginError; // In ra lỗi đăng nhập nếu có
 } else {
-    $status = 'username_fail';
+    echo $status; // In ra trạng thái đăng nhập
 }
-
-if (isset($_REQUEST['rememberPass']) && $_REQUEST['rememberPass'] === 'pass') {
-    if (isset($_REQUEST['password']) && $_REQUEST['password'] === $passWord) {
-        setcookie('username', $userName, time() + 3600, '/');
-        setcookie('password', $passWord, time() + 3600, '/');
-    }
-}
-echo $status;
 ?>
-

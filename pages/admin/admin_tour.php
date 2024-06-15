@@ -42,7 +42,7 @@ $tours = getAllTour();
         <!-- main -->
         <main>
             <div class="container-fluid px-4">
-                <?php //if (isset($_COOKIE['user_id'])) { ?>
+                <?php if (isset($_COOKIE['user_id'])) { ?>
                     <h1 class="mt-4">Quản lý Tour</h1>
                     <a href="../../controller/insert_tour.php">Insert</a>
                     <table class="table">
@@ -71,11 +71,10 @@ $tours = getAllTour();
                         <?php } ?>
                         </tbody>
                     </table>
-<!--                    --><?php
-//                } else {
-//                    echo '<h2>Ban can dang nhap</h2>';
-//                }
-//                ?>
+               <?php
+            } else {              echo '<h2>Ban can dang nhap</h2>';
+             }
+              ?>
             </div>
         </main>
         <!-- end main -->
@@ -87,7 +86,7 @@ $tours = getAllTour();
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
-<script src="/tour/asset/js/scripts.js"></script>
+<script src="/tour_php/asset/js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 </body>

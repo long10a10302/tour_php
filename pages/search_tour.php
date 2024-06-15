@@ -2,7 +2,7 @@
 include '../lib/function.php';
 $places = $_GET['search'];
 $tours_search = searchTour($places);
-$tours = mysqli_query($conn, "SELECT * FROM tbl_tour WHERE name LIKE '%$places%'");
+$tours = mysqli_query($conn, "SELECT * FROM tbl_tour WHERE place LIKE '%$places%'");
 $count = mysqli_num_rows($tours);
 $tour_latest = getTourLatest();
 
@@ -27,7 +27,6 @@ $tour_latest = getTourLatest();
 <body>
 <section>
     <header>
-        <?php include '../lib/header_home.php'; ?>
         <?php include '../lib/navbar_home.php'; ?>
     </header>
     <main>
@@ -86,7 +85,7 @@ $tour_latest = getTourLatest();
                                                         <div class="col-lg-8 col-md-8">
                                                             <div class="prices">
                                                                 <span>Từ</span>
-                                                                <span><?= $row['price']; ?><span>đ</span></span>
+                                                                <span><?= number_format($row['price']);  ?><span>đ</span></span>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4 col-md-4">

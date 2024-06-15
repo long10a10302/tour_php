@@ -1,8 +1,13 @@
 <?php
 include '../lib/function.php';
-
+$item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 4;
+$current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
+$offset = ($current_page-1)*$item_per_page;
 $blogs =  getAllBlog();
 $blogs_time = getBlogLatest();
+$totalRecords = mysqli_query($conn,'SELECT * FROM tbl_blog');
+$totalRecords = $totalRecords->num_rows;
+$totalPages= ceil($totalRecords/$item_per_page);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +40,6 @@ $blogs_time = getBlogLatest();
 <body>
 <section>
     <header>
-        <?php include '../lib/header_home.php'; ?>
         <?php include '../lib/navbar_home.php'; ?>
     </header>
     <main>
@@ -106,33 +110,7 @@ $blogs_time = getBlogLatest();
                                 <?php } ?>
                             </div>
                         </div>
-                        <div class="pagination-blog">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-6">
-                                    <div class="previous-link">
-                                        <button><a href="#">Previous</a></button>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="link-item">
-                                        <button>
-                                            <a href="">1</a>
-                                        </button>
-                                        <button>
-                                            <a href="">2</a>
-                                        </button>
-                                        <button>
-                                            <a href="">3</a>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-6">
-                                    <div class="next-link">
-                                        <button><a href="">Next</a></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <?php include '../controller/pagidate.php';?>
                     </div>
                 </div>
             </div>
