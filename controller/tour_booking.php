@@ -1,46 +1,34 @@
 <?php
-
 include '../lib/function.php';
 
-
-// Kiểm tra và lấy ID từ URL
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 
+$tours = getTourDetail($id);
 
-
-// Lấy thông tin tour từ cơ sở dữ liệu
-$tours = getTour($id);
-
-// Lấy thông tin tour
-foreach ($tours as $key => $row) {
-    $idTour = $row['id'];
-    $price = floatval($row['price']);
-    $tourName = $row['name']; // Giả sử bảng tour có cột 'name'
+foreach($tours as $key => $row){
+    $tourName = $row['name'];
+    $tourPrice = floatval($row['price']);
 }
 
-// Lấy thông tin từ form
-$name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
-$phone = isset($_REQUEST['phone']) ? $_REQUEST['phone'] : '';
-$email = isset($_REQUEST['email']) ? $_REQUEST['email'] : '';
-$day = isset($_REQUEST['day']) ? $_REQUEST['day'] : '';
-$numberPeople = isset($_REQUEST['number_people']) ? floatval($_REQUEST['number_people']) : 0;
-$numberChildren = isset($_REQUEST['number_children']) ? floatval($_REQUEST['number_children']) : 0;
-$sumPrice = isset($_REQUEST['sum_price']) ? floatval($_REQUEST['sum_price']) : 0;
+$name = isset($_POST['name']) ? $_POST['name'] : '';
+$phone = isset($_POST['phone']) ? $_POST['phone'] : '';
+$email = isset($_POST['email']) ? $_POST['email'] : '';
+$day = isset($_POST['day']) ? $_POST['day'] : '';
+$adults = isset($_POST['adults']) ? $_POST['adults'] : '';
+$childrenNine  = isset($_POST['children_5_9']) ? $_POST['children_5_9'] : '';
+$childrenFive = isset($_POST['children_0_4']) ? $_POST['children_0_4'] : '';
+$sumPrice = isset($_POST['sum_price']) ? $_POST['sum_price'] : '';
 
-// Kiểm tra các trường cần thiết trước khi chèn vào cơ sở dữ liệu
-if ($name != '' && $phone != '' && $email != '' && $day != '') {
-    $sql = "INSERT INTO tbl_rls_tour_customer (id_tour, name, phonenumber, email, day_go, number_people, number_children, sum_price)
-            VALUES ('$idTour', '$name', '$phone', '$email', '$day', '$numberPeople', '$numberChildren', '$sumPrice')";
-    if (mysqli_query($conn, $sql)) {
+if(!empty($name) && !empty($phone) && !empty($email) && !empty($day) && !empty($adults)){
+    $sql = "INSERT INTO tbl_rls_tour_customer (name, phone, email, day, adults, childrenNine, childrenFive, sumPrice) 
+            VALUES ('$name', '$phone', '$email', '$day', '$adults', '$childrenNine', '$childrenFive', '$sumPrice')";
+
+    if(mysqli_query($conn,$sql)){
         echo 'Đặt tour thành công';
-    } else {
-        echo "Lỗi: " . mysqli_error($conn);
+    }else{
+        echo 'Lỗi đặt tour';
     }
-} else {
-    echo "Vui lòng điền đầy đủ thông tin.";
 }
-
-mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -68,8 +56,8 @@ mysqli_close($conn);
         <?php include '../lib/navbar_home.php'; ?>
         <div class="container">
             <section class="contact-info">
-                <h2>Đơn đặt hàng Tour <?= $row['name']; ?></h2>
-                <form id="registrationForm" onsubmit="return validateForm()">
+                <h2>Đơn đặt hàng Tour <?= $tourName; ?></h2>
+                <form id="registrationForm" onsubmit="return validateForm()" method = 'POST'>
                     <div class="form-group">
                         <label for="name">Họ và tên:</label>
                         <input type="text" id="name" name="name" placeholder="Nhập họ và tên của bạn" required>
@@ -86,7 +74,7 @@ mysqli_close($conn);
                         <label for="day">Ngày đi:</label>
                         <input type="date" id="day" name="day" required>
                     </div>
-                    <input type="hidden" name="price_tour" id = "price_tour" value = <?= $row['price'] ;?>>
+                    <input type="hidden" name="price_tour" id = "price_tour" value = <?= $tourPrice ;?>>
                     <div class="form-group">
                         <label for="adults">Số lượng người lớn (>10 tuổi):</label>
                         <input type="number" id="adults" name="adults" min="1" required onchange="calculateTotalPrice() ">

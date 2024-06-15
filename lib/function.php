@@ -64,14 +64,9 @@ function  searchTour($place){
     return $tours;
 }
 function getTour($id = null) {
-    global $conn;
-    $sql = "SELECT * FROM tbl_tour";
-
-    if ($id !== null) {
-        $sql .= " WHERE id = $id";
-    }
-
-    return getDaTa($sql);
+    $sql = 'SELECT * FROM tbl_tour WHERE id = $id';
+    $tours = getDaTa($sql);
+    return $tours;
 }
 
 function getAllCustomer()
