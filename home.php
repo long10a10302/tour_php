@@ -37,14 +37,16 @@ $id_user = $row['id_user'];
                     <a class="navbar-brand" href="./home.php">
                         <img src="https://storage.googleapis.com/tripi-assets/mytour/icons/icon_logo_mytour.svg" alt="">
                     </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="./home.php">Trang chủ <span class="sr-only">(current)</span></a>
+                                <a class="nav-link" href="./home.php">Trang chủ <span
+                                            class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link dropdown-toggle" href="./pages/tour.php" id="navbarDropdown">
@@ -57,7 +59,8 @@ $id_user = $row['id_user'];
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link dropdown-toggle" href="./pages/assement.php" id="navbarDropdown" role="button"
+                                <a class="nav-link dropdown-toggle" href="./pages/assement.php" id="navbarDropdown"
+                                   role="button"
                                    data-toggle="dropdown" aria-expanded="false">
                                     Đánh giá
                                 </a>
@@ -67,6 +70,11 @@ $id_user = $row['id_user'];
                             <li>
                                 <span id="login">
                                     <i class="fa fa-user-o" aria-hidden="true"></i> Đăng Nhập
+                                </span>
+                            </li>
+                            <li>
+                                <span id="signup">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i> Đăng Ký
                                 </span>
                             </li>
                         </ul>
@@ -187,16 +195,20 @@ $id_user = $row['id_user'];
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-3 col-md-6">
-                            <img src="https://idodesign.vn/wp-content/uploads/2023/08/logo-cong-ty-du-lich-5.jpg" alt=""/>
+                            <img src="https://idodesign.vn/wp-content/uploads/2023/08/logo-cong-ty-du-lich-5.jpg"
+                                 alt=""/>
                         </div>
                         <div class="col-lg-3 col-md-6">
-                            <img src="https://banoca.com/wp-content/uploads/2021/03/cach-thiet-ke-logo-du-lich.jpg" alt=""/>
+                            <img src="https://banoca.com/wp-content/uploads/2021/03/cach-thiet-ke-logo-du-lich.jpg"
+                                 alt=""/>
                         </div>
                         <div class="col-lg-3 col-md-6">
-                            <img src="https://rubicmarketing.com/wp-content/uploads/2022/09/y-nghia-logo-du-lich-1.jpg" alt=""/>
+                            <img src="https://rubicmarketing.com/wp-content/uploads/2022/09/y-nghia-logo-du-lich-1.jpg"
+                                 alt=""/>
                         </div>
                         <div class="col-lg-3 col-md-6">
-                            <img src="https://solution.com.vn/upload_images/images/2021/11/logo-du-lich/Logo-du-lich-The-Sun-Travel.jpg" alt=""/>
+                            <img src="https://solution.com.vn/upload_images/images/2021/11/logo-du-lich/Logo-du-lich-The-Sun-Travel.jpg"
+                                 alt=""/>
                         </div>
                     </div>
                 </div>
@@ -219,12 +231,18 @@ $id_user = $row['id_user'];
         <div class="container">
             <div>
                 <label for="uname"><b>Tên Đăng Nhập</b></label>
-                <input type="text" placeholder="Nhập tên đăng nhập" name="username" id="username" value="<?php if (isset($_COOKIE['password'])) { echo $_COOKIE['username']; } ?>" required/>
+                <input type="text" placeholder="Nhập tên đăng nhập" name="username" id="username"
+                       value="<?php if (isset($_COOKIE['password'])) {
+                           echo $_COOKIE['username'];
+                       } ?>" required/>
                 <span id='messageU'></span>
             </div>
             <div>
                 <label for="psw"><b>Mật khẩu</b></label>
-                <input type="password" placeholder="Nhập mật khẩu" id="password" name="password" value="<?php if (isset($_COOKIE['password'])) { echo $_COOKIE['password']; } ?>" required/>
+                <input type="password" placeholder="Nhập mật khẩu" id="password" name="password"
+                       value="<?php if (isset($_COOKIE['password'])) {
+                           echo $_COOKIE['password'];
+                       } ?>" required/>
                 <span id='messageP'></span>
             </div>
             <button type="button" class="loginBtn" onclick="loginLoad()">Đăng Nhập</button>
@@ -243,6 +261,45 @@ $id_user = $row['id_user'];
         <input type="hidden" id="id_user" name="id_user" value="<?= $id_user; ?>">
     </form>
 </div>
+<div id="id02" class="modalSignup">
+    <span onclick="document.getElementById('id02').style.display='none'" class="close"
+          title="Close Modal">&times;</span>
+    <form class="modal-content animate" action="./controller/register.php" id="registration" method = 'POST'>
+        <div class="container">
+            <h1>Form Đăng ký</h1>
+            <p>Điền vào form để đăng ký tài khoản.</p>
+            <hr>
+            <div>
+                <label for="uname"><b>Tên Đăng Nhập</b></label>
+                <input type="text" placeholder="Nhập tên đăng nhập" name="uname" required>
+            </div>
+
+            <div>
+                <label for="email"><b>Email</b></label>
+                <input type="email" placeholder="Enter Email" name="email" required>
+            </div>
+
+            <div>
+                <label for="psw"><b>Mật khẩu</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+            </div>
+
+            <div>
+                <label for="psw-repeat"><b>Nhập lại mật khẩu</b></label>
+                <input type="password" placeholder="Repeat Password" name="psw_repeat" id="psw_repeat" required>
+            </div>
+
+            <label>
+                <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+            </label>
+
+            <div class="clearfix">
+                <button type="submit" class="loginBtn">Đăng ký</button>
+            </div>
+        </div>
+    </form>
+
+</div>
 <script>
     function loginLoad() {
         const xhttp = new XMLHttpRequest();
@@ -251,7 +308,7 @@ $id_user = $row['id_user'];
             var response = this.responseText.trim();
             if (response == 'login_success_admin') {
                 window.location.href = "/tour_php/pages/admin/admin_tour.php";
-            } else if(response == 'login_success_user'){
+            } else if (response == 'login_success_user') {
                 window.location.href = "/tour_php/pages/home_user.php?id_user=" + idUser;
             } else if (response === 'password_fail') {
                 document.getElementById('messageP').innerHTML = "wrong_pass";
@@ -272,17 +329,30 @@ $id_user = $row['id_user'];
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 <script src="./asset/js/bootstrap.min.js"></script>
 <script src="./asset/js/main.js"></script>
 <script src="./asset/js/slideshow.js"></script>
 <script>
-    $(function () {
-        $("#day-go").datepicker();
-        $('#day-out').datepicker();
-        $('#day-come').datepicker();
-        $('#day-return').datepicker();
+    <script>
+        document.getElementById("registration").addEventListener("submit", function(event) {
+        var password = document.getElementById("psw").value;
+        var confirmPassword = document.getElementById("psw_repeat").value;
+
+        if (password !== confirmPassword) {
+        alert("Nhập lại mật khẩu không khớp");
+        event.preventDefault(); // Prevent form submission
+        return false;
+    }
+
+        // Optionally, you can add more validation for other fields like email format
+
+        // Validation passed, allow form to submit
+        return true;
     });
+</script>
+
 </script>
 </body>
 </html>

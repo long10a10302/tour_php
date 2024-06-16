@@ -2,7 +2,7 @@
 include '../lib/function.php';
 
 $id = isset($_GET['id']) ? $_GET['id'] : '';
-
+$idUser = isset($_GET['id_user']) ? $_GET['id_user'] : 0;
 $tours = getTourDetail($id);
 
 foreach($tours as $key => $row){
@@ -20,8 +20,8 @@ $childrenFive = isset($_POST['children_0_4']) ? $_POST['children_0_4'] : '';
 $sumPrice = isset($_POST['sum_price']) ? $_POST['sum_price'] : '';
 
 if(!empty($name) && !empty($phone) && !empty($email) && !empty($day) && !empty($adults)){
-    $sql = "INSERT INTO tbl_rls_tour_customer (name, phone, email, day, adults, childrenNine, childrenFive, sumPrice) 
-            VALUES ('$name', '$phone', '$email', '$day', '$adults', '$childrenNine', '$childrenFive', '$sumPrice')";
+    $sql = "INSERT INTO tbl_rls_tour_customer (name_customer, phone, email, day, adults, childrenNine, childrenFive, sumPrice,id_user) 
+            VALUES ('$name', '$phone', '$email', '$day', '$adults', '$childrenNine', '$childrenFive', '$sumPrice','$idUser')";
 
     if(mysqli_query($conn,$sql)){
         echo 'Đặt tour thành công';
@@ -66,7 +66,7 @@ if(!empty($name) && !empty($phone) && !empty($email) && !empty($day) && !empty($
                         <label for="email">Email:</label>
                         <input type="email" id="email" name="email" placeholder="Nhập email của bạn" required>
                     </div>
-                    <div class="form-group">
+        a            <div class="form-group">
                         <label for="phone">Số điện thoại:</label>
                         <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại của bạn" required>
                     </div>

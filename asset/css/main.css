@@ -18,11 +18,14 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    line-height: 1;
-}
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #e0f7fa;
+        color: #333;
+        padding: 20px;
+    }
+
+
 
 input {
     line-height: normal;
