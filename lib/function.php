@@ -83,27 +83,16 @@ function getAllCustomer()
 
 function getCustomerById($id)
 {
-    $sql = '
-    SELECT
-    tbl_rls_tour_customer.name_customer,
-    tbl_rls_tour_customer.email,
-    tbl_rls_tour_customer.phonenumber,
-    tbl_rls_tour_customer.sum_price,
-    tbl_rls_tour_customer.day_go,
-    tbl_rls_tour_customer.status_booking,
-    tbl_rls_tour_customer.id_tour as tour_id,
-    tbl_tour.name,
-    tbl_tour.id
-FROM
-    tbl_rls_tour_customer
-INNER JOIN
-    tbl_tour ON tbl_rls_tour_customer.id_tour = tbl_tour.id
-WHERE
-    tbl_rls_tour_customer.id_user = $id';
+    $sql = 'SELECT tbl_rls_tour_customer.*,tbl_tour.name  FROM tbl_rls_tour_customer JOIN tbl_tour ON tbl_rls_tour_customer.id_tour = tbl_tour.id WHERE tbl_rls_tour_customer.id_user = '.$id.'';
     $customers = getDaTa($sql);
     return $customers;
 }
-
+function getCustomerTour()
+{
+    $sql = 'SELECT tbl_rls_tour_customer.*,tbl_tour.name  FROM tbl_rls_tour_customer JOIN tbl_tour ON tbl_rls_tour_customer.id_tour = tbl_tour.id ';
+    $customers = getDaTa($sql);
+    return $customers;
+}
 function getAllBlog()
 {
     $sql = "SELECT tbl_blog.id AS blog_id,tbl_blog.id, tbl_blog.title, tbl_blog.content, tbl_blog.status, tbl_blog.time_create, tbl_blog.count, tbl_blog.img_id, tbl_media.name_file FROM tbl_blog LEFT JOIN tbl_media ON tbl_blog.img_id = tbl_media.id ";

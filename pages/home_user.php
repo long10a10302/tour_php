@@ -63,6 +63,13 @@ $blogs = getHotBlog();
                                     Đánh giá
                                 </a>
                             </li>
+                            <li class="nav-item ">
+                                <a class="nav-link dropdown-toggle" href="../pages/user_booking.php?id_user=<?=$_GET['id_user']?>" id="navbarDropdown"
+                                   role="button"
+                                   data-toggle="dropdown" aria-expanded="false">
+                                   Xem Tour đã đặt
+                                </a>
+                            </li>
                         </ul>
                         <ul class="list-authentiation">
                          

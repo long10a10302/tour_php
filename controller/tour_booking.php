@@ -17,16 +17,17 @@ $day = isset($_POST['day']) ? $_POST['day'] : '';
 $adults = isset($_POST['adults']) ? $_POST['adults'] : '';
 $childrenNine  = isset($_POST['children_5_9']) ? $_POST['children_5_9'] : '';
 $childrenFive = isset($_POST['children_0_4']) ? $_POST['children_0_4'] : '';
-$sumPrice = isset($_POST['sum_price']) ? $_POST['sum_price'] : '';
+$sumPrice = isset($_POST['sum_price']) ? str_replace(',', '', $_POST['sum_price']) : '';
+echo $sumPrice;
 
 if(!empty($name) && !empty($phone) && !empty($email) && !empty($day) && !empty($adults)){
-    $sql = "INSERT INTO tbl_rls_tour_customer (name_customer, phone, email, day, adults, childrenNine, childrenFive, sumPrice,id_user) 
-            VALUES ('$name', '$phone', '$email', '$day', '$adults', '$childrenNine', '$childrenFive', '$sumPrice','$idUser')";
+    $sql = "INSERT INTO tbl_rls_tour_customer (name_customer, phonenumber, email, day_go, adults, childrenNine, childrenFive, sum_price,id_user,id_tour) 
+            VALUES ('$name', '$phone', '$email', '$day', '$adults', '$childrenNine', '$childrenFive', '$sumPrice','$idUser','$id')";
 
     if(mysqli_query($conn,$sql)){
         echo 'Đặt tour thành công';
     }else{
-        echo 'Lỗi đặt tour';
+        echo 'Lỗi đặt tour' . $sql . mysqli_error($sql);
     }
 }
 ?>
@@ -111,15 +112,14 @@ if(!empty($name) && !empty($phone) && !empty($email) && !empty($day) && !empty($
 
         const totalPrice = numAdult * priceTour + numChildNine * 0.5 * priceTour; // Đổi 50/100 thành 0.5
         const formattedPrice = totalPrice.toLocaleString('vi-VN');
-        document.getElementById('sum_price').value = formattedPrice // Assign numerical value directly
 
-// When displaying totalPrice, format it as a string and set the innerText property of the display_price element
-
+        document.getElementById('sum_price').value = totalPrice; // Assign numerical value directly
         const displayPriceElement = document.getElementById('display_price');
         if (displayPriceElement) {
             displayPriceElement.innerText = formattedPrice;
         }
     }
+
 
     function validateForm() {
         var name = document.getElementById('name').value;

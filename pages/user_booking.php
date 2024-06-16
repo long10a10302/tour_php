@@ -1,10 +1,14 @@
 <?php
 include '../lib/function.php';
-$idUser = isset($_GET['id_user']) ? $_GET['id_user'] : 0;
+$idUser = isset($_GET['id_user']) ? (int)$_GET['id_user'] : 0; // Cast to int for security
+
+// Prepare the SQL query
+//$sql = 'SELECT tbl_rls_tour_customer.name_customer, tbl_rls_tour_customer.email, tbl_rls_tour_customer.phonenumber, tbl_rls_tour_customer.sum_price, tbl_rls_tour_customer.day_go, tbl_rls_tour_customer.status_booking, tbl_rls_tour_customer.id_tour as tour_id, tbl_tour.name, tbl_tour.id FROM tbl_rls_tour_customer INNER JOIN tbl_tour ON tbl_rls_tour_customer.id_tour = tbl_tour.id WHERE tbl_rls_tour_customer.id_user = '.$idUser.'';
 
 $customers = getCustomerById($idUser);
-
+mysqli_close($conn);
 ?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -59,7 +63,8 @@ $customers = getCustomerById($idUser);
                     <td><?= $row['day_go']?></td>
                     <td><?= $row['status_booking']?></td>
                     <td>
-                        <a href=""></a><a href=""></a>
+                        <a href="">Edit</a><br>
+                        <a href="../controller/cancel_booking.php?id=<?= $row['id']?>">Huỷ Tour</a>
                     </td>
                 </tr>
             <?php } ?>
