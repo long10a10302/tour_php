@@ -5,8 +5,10 @@ $blogs = getHotBlog();
 
 $sql = "SELECT * FROM tbl_user";
 $result = $conn->query($sql);
-$row = mysqli_fetch_assoc($result);
-$id_user = $row['id_user'];
+while($row = $result->fetch_assoc()) {
+    $id_user = $row["id_user"];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -309,14 +311,14 @@ $id_user = $row['id_user'];
     function loginLoad() {
         const xhttp = new XMLHttpRequest();
         xhttp.onload = function () {
-            var idUser = document.getElementById('id_user').value;
             var response = this.responseText.trim();
-            if (response == 'login_success') {
-                window.location.href = "/tour_php/pages/home_user.php?id_user=" + idUser;
+            if (response.startsWith('login_success')) {
+                var idUser = response.split('_')[2]; // Tách lấy id_user từ phản hồi
+                window.location.href = "./pages/home_user.php?id_user=" + idUser;
             } else if (response === 'password_fail') {
-                document.getElementById('messageP').innerHTML = "wrong_pass";
+                document.getElementById('messageP').innerHTML = "Sai mật khẩu";
             } else {
-                document.getElementById('messageU').innerHTML = "wrong_user";
+                document.getElementById('messageU').innerHTML = "Tên đăng nhập không tồn tại";
             }
         }
 
