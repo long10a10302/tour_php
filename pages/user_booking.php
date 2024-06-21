@@ -6,6 +6,9 @@ $idUser = isset($_GET['id_user']) ? (int)$_GET['id_user'] : 0; // Cast to int fo
 //$sql = 'SELECT tbl_rls_tour_customer.name_customer, tbl_rls_tour_customer.email, tbl_rls_tour_customer.phonenumber, tbl_rls_tour_customer.sum_price, tbl_rls_tour_customer.day_go, tbl_rls_tour_customer.status_booking, tbl_rls_tour_customer.id_tour as tour_id, tbl_tour.name, tbl_tour.id FROM tbl_rls_tour_customer INNER JOIN tbl_tour ON tbl_rls_tour_customer.id_tour = tbl_tour.id WHERE tbl_rls_tour_customer.id_user = '.$idUser.'';
 
 $customers = getCustomerById($idUser);
+foreach($customers as $key => $customer){
+    $status = $customer['status_booking'];
+}
 mysqli_close($conn);
 ?>
 
@@ -49,7 +52,12 @@ mysqli_close($conn);
                 <th>Giá</th>
                 <th>Ngày đi</th>
                 <th>Trạng thái đặt tour</th>
-                <th>Hành động</th>
+                <?php if($status=== 'chưa_xác_nhận' || $status = 'hủy_tour') {?>
+                <th>
+                    Hành động
+                </th>
+               <?php } ?>
+
             </tr>
             </thead>
             <tbody>
@@ -59,12 +67,14 @@ mysqli_close($conn);
                     <td><?= $row['name_customer']?></td>
                     <td><?= $row['email']?></td>
                     <td><?= $row['phonenumber']?></td>
-                    <td><?= $row['sum_price']?></td>
+                    <td><?php echo number_format($row['sum_price'], 0, ',', '.').  ' VNĐ' ?></td>
                     <td><?= $row['day_go']?></td>
                     <td><?= $row['status_booking']?></td>
                     <td>
-                        <a href="">Edit</a><br>
-                        <a href="../controller/cancel_booking.php?id=<?= $row['id']?>">Huỷ Tour</a>
+                        <?php if($row['status_booking'] === 'chưa_xác_nhận' || $row['status_booking'] === 'hủy_tour'){?>
+                            <a href="../controller/edit_user_booking.php?id_user=<?=$row['id_user']?>">Edit</a><br>
+                            <a href="../controller/cancel_booking.php?id=<?= $row['id']?>">Huỷ Tour</a>
+                       <?php } ?>
                     </td>
                 </tr>
             <?php } ?>

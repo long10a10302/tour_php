@@ -1,19 +1,34 @@
 <?php
 include '../lib/function.php';
+$idUser = isset($_GET['id_user']) ? $_GET['id_user'] : 0;
 
-$customers = getCustomerTour();
+$customers = getCustomerTour($idUser);
 
 foreach($customers as $key => $row){
     $nameTourValue = $row['name'];
+    echo $nameTourValue;
     $nameCustomerValue = $row['name_customer'];
     $emailValue = $row['email'];
     $phoneValue = $row['phonenumber'];
     $dayValue = $row['day_go'];
     $adultsValue = $row['adults'];
-    $childrenNine = $row['children_nine'];
-    
-
+    $childrenNineValue = $row['childrenNine'];
+    $childrenFiveValue = $row['childrenFive'];
+    $sumPriceValue = $row['sum_price'];
 }
+
+
+$nameTourSet = isset($_POST['name_tour']) ? $_POST['name_tour'] : '';
+$nameCustomerSet = isset($_POST['name_customer']) ? $_POST['name_customer'] : '';
+$emailSet = isset($_POST['email']) ? $_POST['email'] : '';
+$phoneSet = isset($_POST['phone']) ? $_POST['phone'] : '';
+$daySet = isset($_POST['day']) ? $_POST['day'] : '';
+$adultSet = isset($_POST['adults']) ? $_POST['adults'] : '';
+$childrenNineSet  = isset($_POST['children_5_9']) ? $_POST['children_5_9'] : '';
+$childrenFiveSet = isset($_POST['children_0_4']) ? $_POST['children_0_4'] : '';
+$sumPriceSet = isset($_POST['sum_price']) ? str_replace(',', '', $_POST['sum_price']) : '';
+
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -26,15 +41,15 @@ foreach($customers as $key => $row){
 </head>
 <body>
 <form action="" method = 'POST'>
-    Tour đã đặt: <input type="text" name="name_tour" id="">
-    Tên khách hàng: <input type="text" name="name_customer" id="">
-    Email: <input type="text" name="email" id="">
-    Số điện thoại: <input type="text" name="phone" id="">
-    Ngày đi <input type="date" name="day" id="">
-    Số người lớn(>10 tuổi) <input type="number" name="adults" id="">
-    Số trẻ em (từ 5 tuổi đến 9 tuổi) <input type="number" name="children_5_9" id="">
-    Số trẻ em (dưới 5 tuổi) <input type="number" name="children_0_4" id="">
-    Giá tour: <input type="text" name='price' id="">
+    Tour đã đặt: <input type="text" name="name_tour" id="name_tour" value="<?=$nameTourValue?>">
+    Tên khách hàng: <input type="text" name="name_customer" id="name_customer" value="<?=$nameCustomerValue?>">
+    Email: <input type="text" name="email" id="email" value="<?=$emailValue?>">
+    Số điện thoại: <input type="text" name="phone" id="phone" value="<?=$phoneValue?>">
+    Ngày đi <input type="date" name="day" id="day" value="<?=$dayValue?>">
+    Số người lớn(>10 tuổi) <input type="number" name="adults" id="adults" value="<?=$adultsValue?>">
+    Số trẻ em (từ 5 tuổi đến 9 tuổi) <input type="number" name="children_5_9" id="children_5_9" value="<?=$childrenNineValue?>">
+    Số trẻ em (dưới 5 tuổi) <input type="number" name="children_0_4" id="" value = "<?=$childrenFiveValue?>">
+    Giá tour: <input type="text" name='price' id="" value = <?=$sumPriceValue?>>
 </form>
 </body>
 </html>

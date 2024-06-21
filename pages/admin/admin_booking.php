@@ -45,7 +45,7 @@ $customers = getAllCustomer();
         <main>
             <div class="container-fluid px-4">
                 <h1 class="mt-4">Quản lý Tour</h1>
-                <?php if (isset($_COOKIE['user_id'])) { ?>
+                <?php ///if (isset($_COOKIE['user_id'])) { ?>
                     <table class="table">
                         <thead>
                         <tr>
@@ -63,43 +63,40 @@ $customers = getAllCustomer();
                         <?php foreach ($customers as $key => $row) { ?>
                             <tr>
                                 <td><?= $row['id_tour'] ?></td>
-                                <td><?= $row['name'] ?></td>
+                                <td><?= $row['name_customer'] ?></td>
                                 <td><?= $row['email'] ?></td>
                                 <td><?= $row['phonenumber'] ?></td>
                                 <td><?= number_format($row['sum_price']); ?></td>
                                 <td><?= $row['day_go'] ?></td>
                                 <td><?= $row['booking_date'];?></td>
                                 <td>
-                                    <?php
-                                    if ($row['status_booking'] === 'đã_xác_nhận'){
-                                    ?>
-                                    <select name="type" class='select_type' onchange="selectChange()">
-                                        <option value="đã_xác_nhận">Đã xác nhận</option>
-                                        <option value="chưa_xác_nhận">Chưa xác nhận</option>
-                                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                    </select>
-
+                                    <?php if ($row['status_booking'] === 'đã_xác_nhận'): ?>
+                                        <select name="type" class='select_type' onchange="selectChange()">
+                                            <option value="đã_xác_nhận" selected>Đã xác nhận</option>
+                                            <option value="chưa_xác_nhận">Chưa xác nhận</option>
+                                            <option value="hủy_tour">Hủy Tour</option>
+                                            <option value="đã hoàn thành">Đã hoàn thành</option>
+                                        </select>
+                                    <?php else: ?>
+                                        <select name="type" class='select_type' onchange="selectChange()">
+                                            <option value="chưa_xác_nhận" selected>Chưa xác nhận</option>
+                                            <option value="đã_xác_nhận">Đã xác nhận</option>
+                                            <option value="hủy_tour">Hủy Tour</option>
+                                            <option value="đã hoàn thành">Đã hoàn thành</option>
+                                        </select>
+                                    <?php endif; ?>
+                                    <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                 </td>
-                                <?php } else { ?>
-                                    <select name="type" class='select_type' onchange="selectChange()">
-                                        <option value="chưa_xác_nhận">Chưa xác nhận</option>
-                                        <option value="đã_xác_nhận">Đã xác nhận</option>
-                                        <option value="chưa_liên_hệ_được">Chưa liên hệ được</option>
-                                        <option value="hủy_tour">Hủy Tour</option>
-
-                                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                    </select>
-                                <?php } ?>
                             </tr>
                         <?php } ?>
                         </tbody>
                     </table>
-                    <?php
-
-                } else {
-                    echo '<h2>Ban can dang nhap</h2>';
-                }
-                ?>
+<!--                    --><?php
+//
+//                } else {
+//                    echo '<h2>Ban can dang nhap</h2>';
+//                }
+//                ?>
 
             </div>
         </main>
@@ -117,13 +114,15 @@ $customers = getAllCustomer();
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script>
     function selectChange() {
+        var selectElement = event.target; // Lấy element select đã thay đổi
+        var selectedValue = selectElement.value; // Lấy giá trị đã chọn
+        var id = selectElement.nextElementSibling.value; // Lấy giá trị id từ hidden input
+
         const xhttp = new XMLHttpRequest();
-        const selectElements = document.querySelectorAll('.select_type');
-        let allConfirmed = Array.from(selectElements).every(selectElement => selectElement.value === "đã_xác_nhận");
-        if (allConfirmed) {
-            xhttp.open("GET", "../../controller/edit_booking.php", true);
-            xhttp.send();
-        }
+
+
+        xhttp.open("GET", "../../controller/edit_booking.php?id=" + id + "&status=" + selectedValue, true);
+        xhttp.send();
     }
 </script>
 
