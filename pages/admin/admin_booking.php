@@ -46,55 +46,59 @@ $customers = getAllCustomer();
             <div class="container-fluid px-4">
                 <h1 class="mt-4">Quản lý Tour</h1>
                 <?php ///if (isset($_COOKIE['user_id'])) { ?>
-                    <table class="table">
-                        <thead>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Mã tour đã đặt</th>
+                        <th>Tên khách hàng</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Giá</th>
+                        <th>Ngày đi</th>
+                        <th>Thời gian đặt</th>
+                        <th>Trạng thái đặt tour</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($customers as $key => $row) { ?>
                         <tr>
-                            <th>Mã tour đã đặt</th>
-                            <th>Tên khách hàng</th>
-                            <th>Email</th>
-                            <th>Số điện thoại</th>
-                            <th>Giá</th>
-                            <th>Ngày đi </th>
-                            <th>Thời gian đặt</th>
-                            <th>Trạng thái đặt tour</th>
+                            <td><?= $row['id_tour'] ?></td>
+                            <td><?= $row['name_customer'] ?></td>
+                            <td><?= $row['email'] ?></td>
+                            <td><?= $row['phonenumber'] ?></td>
+                            <td><?= number_format($row['sum_price']); ?></td>
+                            <td><?= $row['day_go'] ?></td>
+                            <td><?= $row['booking_date']; ?></td>
+                            <td>
+                                <?php if ($row['status_booking'] === 'đã_xác_nhận') { ?>
+                                    <select name="type" class='select_type' onchange="selectChange()">
+                                        <option value="đã_xác_nhận" selected>Đã xác nhận</option>
+                                        <option value="đã hoàn thành">Đã hoàn thành</option>
+                                    </select>
+                                <?php } else if ($row['status_booking'] === 'đã hoàn thành') { ?>
+                                    <select name="type" class='select_type' onchange="selectChange()">
+                                        <option value="đã hoàn thành">Đã hoàn thành</option>
+                                    </select>
+                                <?php } else { ?>
+                                <select name="type" class='select_type' onchange="selectChange()">
+                                    <option value="chưa_xác_nhận" selected>Chưa xác nhận</option>
+                                    <option value="đã_xác_nhận">Đã xác nhận</option>
+                                    <option value="hủy_tour">Hủy Tour</option>
+                                    <option value="đã hoàn thành">Đã hoàn thành</option>
+                                </select>
+                                <?php }  ?>
+                                <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($customers as $key => $row) { ?>
-                            <tr>
-                                <td><?= $row['id_tour'] ?></td>
-                                <td><?= $row['name_customer']?></td>
-                                <td><?= $row['email'] ?></td>
-                                <td><?= $row['phonenumber'] ?></td>
-                                <td><?= number_format($row['sum_price']); ?></td>
-                                <td><?= $row['day_go'] ?></td>
-                                <td><?= $row['booking_date'];?></td>
-                                <td>
-                               <?php if($row['status_booking'] === 'đã_xác_nhận' || $row['status_booking'] === 'đã hoàn thành') { ?>
-    <select name="type" class='select_type' onchange="selectChange()">
-        <option value="đã_xác_nhận" selected>Đã xác nhận</option>
-        <option value="đã hoàn thành">Đã hoàn thành</option>
-    </select>
-<?php } else { ?>
-    <select name="type" class='select_type' onchange="selectChange()">
-        <option value="chưa_xác_nhận" selected>Chưa xác nhận</option>
-        <option value="đã_xác_nhận">Đã xác nhận</option>
-        <option value="hủy_tour">Hủy Tour</option>
-        <option value="đã hoàn thành">Đã hoàn thành</option>
-    </select>
-<?php } ?>
-<input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                </td>
-                            </tr>
-                        <?php } ?>
-                        </tbody>
-                    </table>
-<!--                    --><?php
-//
-//                } else {
-//                    echo '<h2>Ban can dang nhap</h2>';
-//                }
-//                ?>
+                    <?php } ?>
+                    </tbody>
+                </table>
+                <!--                    --><?php
+                //
+                //                } else {
+                //                    echo '<h2>Ban can dang nhap</h2>';
+                //                }
+                //                ?>
 
             </div>
         </main>
@@ -114,7 +118,7 @@ $customers = getAllCustomer();
     function selectChange() {
         var selectElement = event.target; // Lấy element select đã thay đổi
         var selectedValue = selectElement.value; // Lấy giá trị đã chọn
-      
+
         var id = selectElement.nextElementSibling.value; // Lấy giá trị id từ hidden input
 
         const xhttp = new XMLHttpRequest();
