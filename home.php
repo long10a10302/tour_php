@@ -314,7 +314,8 @@ while($row = $result->fetch_assoc()) {
             var response = this.responseText.trim();
             if (response.startsWith('login_success')) {
                 var idUser = response.split('_')[2]; // Tách lấy id_user từ phản hồi
-                window.location.href = "./pages/home_user.php?id_user=" + idUser;
+                console.log(idUser);
+               window.location.href = "./pages/home_user.php?id_user=" + idUser;
             } else if (response === 'password_fail') {
                 document.getElementById('messageP').innerHTML = "Sai mật khẩu";
             } else {

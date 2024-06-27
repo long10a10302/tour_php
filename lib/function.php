@@ -76,14 +76,14 @@ function getTour($id = null)
 
 function getAllCustomer()
 {
-    $sql = "SELECT * FROM tbl_rls_tour_customer";
+    $sql = "SELECT tbl_rls_tour_customer.*,tbl_customer.name_customer,tbl_customer.email FROM tbl_rls_tour_customer INNER JOIN tbl_customer ON tbl_rls_tour_customer.id_user = tbl_customer.id_user";
     $customers = getData($sql);
     return $customers;
 }
 
 function getCustomerById($id)
 {
-    $sql = 'SELECT tbl_rls_tour_customer.*,tbl_tour.name  FROM tbl_rls_tour_customer JOIN tbl_tour ON tbl_rls_tour_customer.id_tour = tbl_tour.id WHERE tbl_rls_tour_customer.id_user = '.$id.'';
+    $sql = "SELECT tbl_tour.name, tbl_customer.name_customer,tbl_customer.email, tbl_rls_tour_customer.* FROM tbl_rls_tour_customer INNER JOIN tbl_tour ON tbl_rls_tour_customer.id_tour = tbl_tour.id INNER JOIN tbl_customer ON tbl_rls_tour_customer.id_user = tbl_customer.id_user WHERE tbl_rls_tour_customer.id_user = " . $id;
     $customers = getDaTa($sql);
     return $customers;
 }
@@ -95,7 +95,8 @@ function getCustomerTour($id)
 }
 
 function getCustomerID($id){
-    $sql = "SELECT * FROM tbl_customer WHERE id_user = '.$id.'";
+    $sql = "SELECT * FROM tbl_customer WHERE id_user = " .$id;
+    echo $sql;
     $customers = getDaTa($sql);
     return $customers;
 }
@@ -143,23 +144,38 @@ function getALLAssement()
 }
 //Hàm phục vụ thống kê
 function totalRevenue(){
-    $sql = "SELECT SUM(sum_price) AS totalRevenue FROM tbl_rls_tour_customer WHERE status_booking IN ('đã_xác_nhận','đã_hoàn_thành')";
+    $sql = "SELECT SUM(sum_price) AS totalRevenue FROM tbl_rls_tour_customer WHERE status_booking IN ('đã_xác_nhận','đã hoàn thành')";
     $totalRevenues = getDaTa($sql);
     return $totalRevenues;
 }
 
 function  countCustomer()
 {
-    $sql = "SELECT COUNT(phonenumber) AS sumCustomer FROM tbl_customer";
+    $sql = "SELECT COUNT(id) AS sumCustomer FROM tbl_rls_tour_customer";
     $counts = getDaTa($sql);
     return $counts;
 }
 
 function totalRevenueMonth(){
-    $sql = "SELECT SUM(sum_price) AS totalRevenue FROM tbl_rls_tour_customer WHERE status_booking IN ('đã_xác_nhận', 'đã_hoàn_thành') AND MONTH(booking_date) = MONTH(NOW()); ";
+    $sql = "SELECT 
+  YEAR(booking_date) AS year,
+  MONTH(booking_date) AS month,
+  SUM(sum_price) AS total_revenue
+FROM tbl_rls_tour_customer
+GROUP BY year, month
+ORDER BY year, month; ";
     $totalRevenues = getDaTa($sql);
     return $totalRevenues;
 }
 
-
+function totalRevenueYear(){
+    $sql = "SELECT 
+  YEAR(booking_date) AS year,
+  SUM(sum_price) AS total_revenue
+FROM tour_bookings
+GROUP BY year
+ORDER BY year;";
+    $totalRevenues = getDaTa($sql);
+    return $totalRevenues;
+}
 ?>

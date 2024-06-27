@@ -5,15 +5,10 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 $idUser = isset($_GET['id_user']) ? $_GET['id_user'] : 0;
 $tours = getTourDetail($id);
 $customers = getCustomerID($idUser);
+
 foreach ($tours as $key => $row) {
     $tourName = $row['name'];
     $tourPrice = floatval($row['price']);
-}
-
-foreach ($customers as $customer) {
-    $name = $customer['name_customer'];
-    $email = $customer['email'];
-    $phone = $customer['phonenumber'];
 }
 
 
@@ -26,37 +21,32 @@ $childrenNine = isset($_POST['children_5_9']) ? $_POST['children_5_9'] : '';
 $childrenFive = isset($_POST['children_0_4']) ? $_POST['children_0_4'] : '';
 $sumPrice = isset($_POST['sum_price']) ? str_replace(',', '', $_POST['sum_price']) : '';
 
-
-if (!empty($name) && !empty($phone) && !empty($email) && !empty($day) && !empty($adults)) {
+$name = 'Nguyen Viet Long';
     if ($idUser === 0) {
-        $sql = "INSERT INTO tbl_customer (name_customer, phonenumber, email,id_user) 
+        if(!empty($name)){
+            $sql = "INSERT INTO tbl_customer (name_customer, phonenumber, email,id_user) 
             VALUES ('$name', '$phone', '$email','$idUser')";
-        if (mysqli_query($conn, $sql)) {
+            if (mysqli_query($conn, $sql)) {
+                $query = "INSERT INTO tbl_rls_tour_customer (phonenumber, day_go, id_tour, sum_price, adults, childrenNine, childrenFive, id_user) VALUES ('$phone', '$day','$id','$sumPrice','$adults','$childrenNine','$childrenFive', '$idUser')";
+                if (mysqli_query($conn, $query)) {
 
-            $query = "INSERT INTO tbl_rls_tour_customer (phonenumber, day_go, id_tour, sum_price, adults, childrenNine, childrenFive, id_user) VALUES ('$phone', '$day','$id','$sumPrice','$adults','$childrenNine','$childrenFive', '$idUser')";
-            if (mysqli_query($conn, $query)) {
-
+                } else {
+                    echo 'Lỗi đặt tour' . $sql . mysqli_error($conn);
+                }
             } else {
                 echo 'Lỗi đặt tour' . $sql . mysqli_error($conn);
             }
-        } else {
-            echo 'Lỗi đặt tour' . $sql . mysqli_error($conn);
         }
-    } else {
-        $sql = "UPDATE tbl_customer SET id_user = $idUser WHERE phonenumber = $phone";
-        if (mysqli_query($conn, $sql)) {
-
+    }else{
+        if(!empty($adults)){
             $query = "INSERT INTO tbl_rls_tour_customer (phonenumber, day_go, id_tour, sum_price, adults, childrenNine, childrenFive, id_user) VALUES ('$phone', '$day','$id','$sumPrice','$adults','$childrenNine','$childrenFive', '$idUser')";
             if (mysqli_query($conn, $query)) {
-
+                echo 'Đặt tour thành công';
             } else {
-                echo 'Lỗi đặt tour' . $sql . mysqli_error($conn);
+                echo 'Lỗi đặt tour' . $query . mysqli_error($conn);
             }
-        } else {
-            echo 'Lỗi đặt tour' . $sql . mysqli_error($conn);
         }
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -85,61 +75,62 @@ if (!empty($name) && !empty($phone) && !empty($email) && !empty($day) && !empty(
         <div class="container">
             <section class="contact-info">
                 <h2>Đơn đặt hàng Tour <?= $tourName; ?></h2>
-                <?php if ($idUser === 0){ ?>
-                    <form id="registrationForm" onsubmit="return validateForm()" method='POST'>
-                        <div class="form-group">
-                            <label for="name">Họ và tên:</label>
-                            <input type="text" id="name" name="name" placeholder="Nhập họ và tên của bạn" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" placeholder="Nhập email của bạn" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Số điện thoại:</label>
-                            <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại của bạn" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="day">Ngày đi:</label>
-                            <input type="date" id="day" name="day" required>
-                        </div>
-                        <input type="hidden" name="price_tour" id="price_tour" value= <?= $tourPrice; ?>>
-                        <div class="form-group">
-                            <label for="adults">Số lượng người lớn (>10 tuổi):</label>
-                            <input type="number" id="adults" name="adults" min="1" required
-                                   onchange="calculateTotalPrice() ">
-                        </div>
-                        <div class="form-group">
-                            <label for="children_5_9">Số lượng trẻ em (từ 5 - 9 tuổi):</label>
-                            <input type="number" id="children_5_9" name="children_5_9" min="0" required
-                                   onchange="calculateTotalPrice() ">
-                        </div>
-                        <div class="form-group">
-                            <label for="children_0_4">Số lượng trẻ em (dưới 5 tuổi):</label>
-                            <input type="number" id="children_0_4" name="children_0_4" min="0" required
-                                   onchange="calculateTotalPrice() ">
-                        </div>
-                        <div class="form-group">
-                            <label for="children_0_4">Thành tiền</label>
-                            <input type="text" id="sum_price" name="sum_price" min="0" required
-                                   onchange="calculateTotalPrice() ">
-                        </div>
+            </section>
+            <?php if($idUser === 0){?>
+            <form id="registrationForm" onsubmit="return validateForm()" method='POST'>
+                <div class="form-group">
+                    <label for="name">Họ và tên:</label>
+                    <input type="text" id="name" name="name" placeholder="Nhập họ và tên của bạn" required value="">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Nhập email của bạn" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Số điện thoại:</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại của bạn" required>
+                </div>
+                <div class="form-group">
+                    <label for="day">Ngày đi:</label>
+                    <input type="date" id="day" name="day" required>
+                </div>
+                <input type="hidden" name="price_tour" id="price_tour" value= <?= $tourPrice; ?>>
+                <div class="form-group">
+                    <label for="adults">Số lượng người lớn (>10 tuổi):</label>
+                    <input type="number" id="adults" name="adults" min="1" required
+                           onchange="calculateTotalPrice() ">
+                </div>
+                <div class="form-group">
+                    <label for="children_5_9">Số lượng trẻ em (từ 5 - 9 tuổi):</label>
+                    <input type="number" id="children_5_9" name="children_5_9" min="0" required
+                           onchange="calculateTotalPrice() ">
+                </div>
+                <div class="form-group">
+                    <label for="children_0_4">Số lượng trẻ em (dưới 5 tuổi):</label>
+                    <input type="number" id="children_0_4" name="children_0_4" min="0" required
+                           onchange="calculateTotalPrice() ">
+                </div>
+                <div class="form-group">
+                    <label for="children_0_4">Thành tiền</label>
+                    <input type="text" id="sum_price" name="sum_price" min="0" required
+                           onchange="calculateTotalPrice() ">
+                </div>
 
-                        <button type="submit">Đăng ký</button>
-                    </form>
-                <?php } else {  ?>
+                <button type="submit">Đăng ký</button>
+            </form>
+            <?php } else{ foreach ($customers as $key => $row) {?>
                 <form id="registrationForm" onsubmit="return validateForm()" method='POST'>
                     <div class="form-group">
                         <label for="name">Họ và tên:</label>
-                        <input type="text" disabled id="name" name="name" placeholder="Nhập họ và tên của bạn" required value = "<?= $name ?>">
+                        <input type="text" id="name" name="name" placeholder="Nhập họ và tên của bạn" required value="<?=$row['name_customer']?>">
                     </div>
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="email" disabled id="email" name="email" placeholder="Nhập email của bạn" required value = "<?= $email ?>">
+                        <input type="email" id="email" name="email" placeholder="Nhập email của bạn" required value="<?=$row['email']?>">
                     </div>
                     <div class="form-group">
                         <label for="phone">Số điện thoại:</label>
-                        <input type="tel" disabled id="phone" name="phone" placeholder="Nhập số điện thoại của bạn" required value =  "<?= $phone ?>">
+                        <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại của bạn" required value="<?=$row['phonenumber']?>">
                     </div>
                     <div class="form-group">
                         <label for="day">Ngày đi:</label>
@@ -166,11 +157,10 @@ if (!empty($name) && !empty($phone) && !empty($email) && !empty($day) && !empty(
                         <input type="text" id="sum_price" name="sum_price" min="0" required
                                onchange="calculateTotalPrice() ">
                     </div>
-
                     <button type="submit">Đăng ký</button>
+
                 </form>
-                <?php } ?>
-            </section>
+           <?php } }?>
         </div>
     </main>
     <footer>
@@ -214,10 +204,7 @@ if (!empty($name) && !empty($phone) && !empty($email) && !empty($day) && !empty(
             return false;
         }
 
-        if (!/^\d{10,11}$/.test(phone)) {
-            alert("Vui lòng nhập số điện thoại hợp lệ.");
-            return false;
-        }
+
         var currentDate = new Date();
         var selectedDate = new Date(day);
         if (selectedDate < currentDate) {
